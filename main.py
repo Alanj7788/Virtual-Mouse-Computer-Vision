@@ -8,11 +8,11 @@ hand_detector = mp.solutions.hands.Hands()
 drawing_utils = mp.solutions.drawing_utils
 screen_width, screen_height = pyautogui.size()
 
-index_y = 0
-middle_y = 0
-ring_y = 0
-pinky_y = 0
-thumb_y = 0
+index_y = 0;index_x = 0;
+middle_y = 0;middle_x = 0;
+ring_y = 0;ring_x = 0;
+pinky_y = 0;pinky_x = 0;
+thumb_y = 0;thumb_x = 0;
 
 while True:
     _, frame = cap.read()
@@ -61,21 +61,21 @@ while True:
 
                     # Check for gestures only if all necessary coordinates are updated
                     if index_y and middle_y and ring_y and pinky_y and thumb_y:
-                        if abs(index_y - thumb_y) < 10:
+                        if abs(index_y - thumb_y) < 30 and abs(index_x - thumb_x) < 30:
+                            print('Scroll Up')
+                            pyautogui.scroll(300)
+                            pyautogui.sleep(0.5)
+                        elif abs(pinky_y - thumb_y) < 30 and abs(pinky_x - thumb_x) < 30:
                             print('Left Click')
-                            pyautogui.click()
-                            pyautogui.sleep(1)
-                        elif abs(pinky_y - thumb_y) < 10:
-                            print('Right Click')
                             pyautogui.rightClick()
                             pyautogui.sleep(1)
-                        elif abs(middle_y - thumb_y) < 10:
-                            print('Scroll Up')
-                            pyautogui.scroll(100)
-                            pyautogui.sleep(1)
-                        elif abs(ring_y - thumb_y) < 10:
-                            print('Scroll Down')
-                            pyautogui.scroll(-100)
+                        elif abs(middle_y - thumb_y) < 30 and abs(middle_x - thumb_x) < 30:
+                            print('Scroll down')
+                            pyautogui.scroll(-300)
+                            pyautogui.sleep(0.5)
+                        elif abs(ring_y - thumb_y) < 30 and abs(ring_x - thumb_x) < 30:
+                            print('Left Click')
+                            pyautogui.click()
                             pyautogui.sleep(1)
 
     cv2.imshow('Virtual Mouse', frame)
